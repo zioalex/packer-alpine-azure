@@ -19,7 +19,6 @@
                 "root<enter><wait>",
                 "ifconfig eth0 up && udhcpc -i eth0<enter><wait10>",
                 "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/answers<enter><wait>",
- 		        "dos2unix answers<enter>",
                 "setup-alpine -f answers<enter><wait5>",
                 "alpine<enter><wait>",
                 "alpine<enter><wait>",
@@ -44,7 +43,9 @@
             ],
             "shutdown_command": "poweroff",
             "generation": 1,
-            "enable_secure_boot": false
+            "enable_secure_boot": false,
+	        "vm_name": "ota-agent-base-image",
+            "use_fixed_vhd_format": true 
         }
     ],
     "provisioners": [
