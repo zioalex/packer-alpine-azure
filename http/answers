@@ -1,11 +1,11 @@
 KEYMAPOPTS="us us"
-HOSTNAMEOPTS="-n alpine36"
+HOSTNAMEOPTS="-n alpine"
 INTERFACESOPTS="auto lo
 iface lo inet loopback
 
 auto eth0
 iface eth0 inet dhcp
-    hostname alpine36
+    hostname alpine
 "
 DNSOPTS="-d local -n 8.8.8.8 8.8.4.4"
 TIMEZONEOPTS="-z UTC"
