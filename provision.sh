@@ -1,11 +1,26 @@
 # Community package required for shadow
 echo "http://dl-cdn.alpinelinux.org/alpine/v3.6/community" >> /etc/apk/repositories
 
+# Resize root disk
+parted /dev/sda ---pretend-input-tty <<EOF
+resizepart
+3
+Yes
+100%
+Yes
+quit
+EOF
+
+resize2fs /dev/sda3
+
 apk update && apk upgrade
 
-# Pre-reqs for WALinuxAgent
+# SW Pre-reqs 
 apk add openssl sudo bash shadow parted iptables sfdisk
 apk add python py-setuptools
+apk add curl unzip e2fsprogs-extra
+apk icu-libs krb5-libs libgcc libint libstdc++ zlib
+apk add libint libssl1.1
 
 # Install WALinuxAgent
 wget https://github.com/Azure/WALinuxAgent/archive/v2.2.19.tar.gz && \
@@ -47,3 +62,17 @@ rc-update add waagent default
 mkdir -p /usr/local/sbin
 mv /tmp/useradd.sh /usr/local/sbin/useradd
 chmod +x /usr/local/sbin/useradd
+
+# Avoid mail Spool creation error
+sed -i 's/^CREATE_MAIL_SPOOL=yes/CREATE_MAIL_SPOOL=no/' /etc/default/useradd
+
+useradd -d /home/vsts -m vsts
+
+# https://github.com/microsoft/azure-pipelines-agent/releases
+cat /home/vsts/install_ado_agent.sh <<EOF
+curl -v https://vstsagentpackage.azureedge.net/agent/2.185.1/vsts-agent-linux-x64-2.185.1.tar.gz > vsts-agent-linux-x64-2.185.1.tar.gz
+tar xvf vsts-agent-linux-x64-2.185.1.tar.gz
+EOF
+chown vsts:vsts  /home/vsts/install_ado_agent.sh
+chmod +x /home/vsts/install_ado_agent.sh
+su - vsts -c /home/vsts/install_ado_agent.sh
