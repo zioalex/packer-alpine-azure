@@ -3,7 +3,7 @@
         {
             "type": "hyperv-iso",
             "iso_url": "https://dl-cdn.alpinelinux.org/alpine/v3.13/releases/x86_64/alpine-standard-3.13.5-x86_64.iso",
-            "iso_checksum": "61ff66f31276738f18508143ea082a831beca160ad1be8fc07e0cf1e31828aa5  ",
+            "iso_checksum": "61ff66f31276738f18508143ea082a831beca160ad1be8fc07e0cf1e31828aa5",
             "disk_size": "512",
             "skip_compaction": "true",
             "communicator": "ssh",
