@@ -14,11 +14,12 @@
             "http_port_min": "8080",
             "http_port_max": "8080",
             "switch_name": "Default Switch",
-            "boot_wait": "30s",
+            "boot_wait": "10s",
             "boot_command": [
                 "root<enter><wait>",
                 "ifconfig eth0 up && udhcpc -i eth0<enter><wait10>",
                 "wget http://{{ .HTTPIP }}:{{ .HTTPPort }}/answers<enter><wait>",
+ 		        "dos2unix answers<enter>",
                 "setup-alpine -f answers<enter><wait5>",
                 "alpine<enter><wait>",
                 "alpine<enter><wait>",
