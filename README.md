@@ -2,6 +2,31 @@
 
 This Packer template will generate a VHD suitable for use in Hyper-V or Azure.
 
+## Requirements
+### Hardware requirements
+To run a Hyper-V on Azure you must use DV3 or EV3 VMs
+https://azure.microsoft.com/en-us/blog/introducing-the-new-dv3-and-ev3-vm-sizes
+
+Not possible to run any nested virtualization on Linux hosts.
+### Windows machine requirements
+* chocolatey
+* git
+* packer
+* azure-cli
+
+### Special features
+Some special features need to be enabled in:
+Look in the "Control Panel" » "Programs and Features" » "Turn Windows features on or off", and make sure that the all of the following are active:
+
+    Hyper-V
+    Virtual Machine Platform
+    Windows Hypervisor Platform
+
+``Reboot``
+
+https://forums.virtualbox.org/viewtopic.php?f=6&t=91960#p442236
+
+*TODO* *How to automate this step?* Possible documented here https://www.altaro.com/hyper-v/install-hyper-v-powershell-module/
 ## How it works
 
 - The Packer template downloads the Alpine 3.6 ISO from the official download site.
