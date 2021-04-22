@@ -59,3 +59,11 @@ At the moment this is not possible because of #2931 and #1319
 
 - Review/tweak boot command based on [ladar's comment](https://github.com/hashicorp/packer/issues/5049#issuecomment-343531173)
 - Investigate `iptables` error messages
+
+## Reference
+* https://docs.microsoft.com/en-us/dotnet/core/install/linux-alpine#dependencies
+* https://docs.microsoft.com/en-us/dotnet/core/install/linux-scripted-manual#scripted-install
+* https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-linux?view=azure-devops#unattended-config
+* https://linux.die.net/man/1/ash
+* https://www.packer.io/docs/builders/hyperv/iso
+* 
