@@ -1,26 +1,30 @@
 # Community package required for shadow
-echo "http://dl-cdn.alpinelinux.org/alpine/v3.6/community" >> /etc/apk/repositories
+echo "http://dl-cdn.alpinelinux.org/alpine/v3.13/community" >> /etc/apk/repositories
+
+apk update && apk upgrade
+
+# SW Pre-reqs 
+apk add openssl sudo shadow parted e2fsprogs iptables sfdisk
+apk add python3 py3-setuptools
+apk add curl unzip e2fsprogs-extra
+apk add icu-libs krb5-libs libgcc libint libstdc++ zlib gcompat
+apk add libintl libssl1.1
+# .NET Requirements
+apk add bash icu-libs krb5-libs libgcc libintl libssl1.1 libstdc++ zlib
+apk add libgdiplus --repository https://dl-3.alpinelinux.org/alpine/edge/testing/
+#
 
 # Resize root disk
 parted /dev/sda ---pretend-input-tty <<EOF
 resizepart
-3
+2
 Yes
 100%
 Yes
 quit
 EOF
 
-resize2fs /dev/sda3
-
-apk update && apk upgrade
-
-# SW Pre-reqs 
-apk add openssl sudo bash shadow parted iptables sfdisk
-apk add python py-setuptools
-apk add curl unzip e2fsprogs-extra
-apk icu-libs krb5-libs libgcc libint libstdc++ zlib
-apk add libint libssl1.1
+resize2fs /dev/sda2
 
 # Install WALinuxAgent
 wget https://github.com/Azure/WALinuxAgent/archive/v2.2.19.tar.gz && \
@@ -68,11 +72,23 @@ sed -i 's/^CREATE_MAIL_SPOOL=yes/CREATE_MAIL_SPOOL=no/' /etc/default/useradd
 
 useradd -d /home/vsts -m vsts
 
+echo "%vsts ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/vsts_nopw
+
+# ADO Agent Pre-requisites
+
 # https://github.com/microsoft/azure-pipelines-agent/releases
-cat /home/vsts/install_ado_agent.sh <<EOF
+cat > /home/vsts/install_ado_agent.sh <<EOF
+# .NET
+curl -L https://dot.net/v1/dotnet-install.sh > dotnet-install.sh
+bash ./dotnet-install.sh --runtime dotnet -v 2.1.0
+echo PATH=$PATH:~/.dotnet >> ~/.profile
+
 curl -v https://vstsagentpackage.azureedge.net/agent/2.185.1/vsts-agent-linux-x64-2.185.1.tar.gz > vsts-agent-linux-x64-2.185.1.tar.gz
 tar xvf vsts-agent-linux-x64-2.185.1.tar.gz
 EOF
+
 chown vsts:vsts  /home/vsts/install_ado_agent.sh
 chmod +x /home/vsts/install_ado_agent.sh
 su - vsts -c /home/vsts/install_ado_agent.sh
+
+# TODO In prod reset the root password to random.

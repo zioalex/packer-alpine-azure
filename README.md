@@ -52,6 +52,9 @@ waagent -deprovision
 
 Finally, `makeimage.cmd` will deallocate the VM, capture it as an image, and start another VM based on that image.
 
+## Use case
+This could be used as Azure Pipeline (VSTS) agent.
+At the moment this is not possible because of #2931 and #1319
 ## TODO
 
 - Review/tweak boot command based on [ladar's comment](https://github.com/hashicorp/packer/issues/5049#issuecomment-343531173)
