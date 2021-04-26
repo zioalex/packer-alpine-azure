@@ -83,7 +83,7 @@ curl -L https://dot.net/v1/dotnet-install.sh > dotnet-install.sh
 bash ./dotnet-install.sh --runtime dotnet -v 2.1.0
 echo PATH=$PATH:~/.dotnet >> ~/.profile
 
-curl -v https://vstsagentpackage.azureedge.net/agent/2.185.1/vsts-agent-linux-x64-2.185.1.tar.gz > vsts-agent-linux-x64-2.185.1.tar.gz
+curl https://vstsagentpackage.azureedge.net/agent/2.185.1/vsts-agent-linux-x64-2.185.1.tar.gz > vsts-agent-linux-x64-2.185.1.tar.gz
 tar xvf vsts-agent-linux-x64-2.185.1.tar.gz
 EOF
 
